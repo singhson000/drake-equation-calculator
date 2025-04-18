@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Drake Equation Calculator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Orbitron', sans-serif;
+      background: radial-gradient(ellipse at center, #0d0d1a 0%, #000000 100%);
+      color: #00ffcc;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: start;
+      padding: 2rem;
+    }
+
+    h1 {
+      color: #00ffff;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      text-shadow: 0 0 10px #00ffff;
+    }
+
+    .calculator {
+      background: rgba(0, 0, 50, 0.8);
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 0 20px #00ffcc;
+      width: 90%;
+      max-width: 600px;
+    }
+
+    .slider-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+      color: #ffffff;
+    }
+
+    select {
+      width: 100%;
+      padding: 0.5rem;
+      font-size: 1rem;
+      background-color: #111;
+      color: #00ffcc;
+      border: 2px solid #00ffcc;
+      border-radius: 8px;
+    }
+
+    button {
+      background: #00ffcc;
+      color: #000;
+      font-size: 1.2rem;
+      padding: 0.75rem 2rem;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      margin-top: 1rem;
+      box-shadow: 0 0 10px #00ffcc;
+    }
+
+    .result {
+      margin-top: 2rem;
+      background: #111122;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #00ffff;
+    }
+
+    .result h2 {
+      color: #00ffff;
+    }
+
+    .result p {
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <h1>Drake Equation Calculator 🛸</h1>
+  <div class="calculator">
+    <div class="slider-group">
+      <label for="ne">nₑ — Habitable planets per star</label>
+      <select id="ne">
+        <option value="0.1">A = Rare (0.1)</option>
+        <option value="1">B = Moderate (1)</option>
+        <option value="2">C = Common (2)</option>
+      </select>
+    </div>
+    <div class="slider-group">
+      <label for="fl">fₗ — Life development rate</label>
+      <select id="fl">
+        <option value="0.01">A = Very Unlikely (0.01)</option>
+        <option value="0.3">B = Somewhat Likely (0.3)</option>
+        <option value="1">C = Likely (1)</option>
+      </select>
+    </div>
+    <div class="slider-group">
+      <label for="fi">fᵢ — Intelligent life fraction</label>
+      <select id="fi">
+        <option value="0.01">A = Rare (0.01)</option>
+        <option value="0.3">B = Occasional (0.3)</option>
+        <option value="1">C = Frequent (1)</option>
+      </select>
+    </div>
+    <div class="slider-group">
+      <label for="fc">f𝑐 — Communicative civilizations</label>
+      <select id="fc">
+        <option value="0.01">A = Primitive (0.01)</option>
+        <option value="0.2">B = Somewhat Advanced (0.2)</option>
+        <option value="1">C = Advanced (1)</option>
+      </select>
+    </div>
+    <div class="slider-group">
+      <label for="L">L — Lifespan of civilizations (years)</label>
+      <select id="L">
+        <option value="100">A = Short (100 yrs)</option>
+        <option value="1000">B = Medium (1,000 yrs)</option>
+        <option value="1000000">C = Long (1,000,000 yrs)</option>
+      </select>
+    </div>
+    <button onclick="calculateDrake()">Calculate</button>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    function calculateDrake() {
+      const R = 1.5; // Stars per year (fixed for this version)
+      const ne = parseFloat(document.getElementById("ne").value);
+      const fl = parseFloat(document.getElementById("fl").value);
+      const fi = parseFloat(document.getElementById("fi").value);
+      const fc = parseFloat(document.getElementById("fc").value);
+      const L = parseFloat(document.getElementById("L").value);
+
+      const N = R * ne * fl * fi * fc * L;
+
+      let interpretation = "";
+      if (N < 1) {
+        interpretation = "This result suggests that intelligent, communicative civilizations may be extremely rare — or that they exist too briefly for us to detect. We may be alone… or just very isolated in time and space.";
+      } else if (N < 10) {
+        interpretation = "This result indicates that a few intelligent civilizations could be active in the galaxy right now. They may be distant, but they might exist.";
+      } else if (N < 100) {
+        interpretation = "This result suggests that there may be dozens of civilizations capable of communication in our galaxy — a promising sign that we are not alone.";
+      } else {
+        interpretation = "This high estimate implies that the galaxy could be teeming with advanced civilizations. The odds of contact, directly or indirectly, increase significantly under this scenario.";
+      }
+
+      document.getElementById("result").innerHTML = `
+        <h2>Estimated Civilizations: ${N.toFixed(2)}</h2>
+        <p><strong>Scientific Interpretation:</strong> The Drake Equation estimates the number of civilizations in the Milky Way that might be able to communicate with us. Your chosen values suggest <strong>${N.toFixed(2)}</strong> such civilizations exist right now.</p>
+        <p>${interpretation}</p>
+      `;
+    }
+  </script>
+</body>
+</html>
